@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "8d76a5d80b47cf434b41"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "c5379afe33160b73fcb6"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -24033,7 +24033,7 @@
 	    };
 
 	    _this.onSave = function () {
-	      console.log(_this.refs.crop);
+	      // console.log( this.refs.crop );
 	      _jquery2.default.ajax({
 	        url: 'http://localhost:9000/pictures/upload',
 	        type: 'POST',
@@ -24041,11 +24041,11 @@
 	          img: _this.refs.crop.src
 	        },
 	        success: function success(res) {
-	          console.log(res);
+	          // console.log( res );
 	          alert('Upload crop image success!');
 	        },
 	        error: function error(err) {
-	          console.log(err);
+	          console.error(err);
 	        }
 	      });
 	      // axios.post('http://localhost:7000/pictures/upload', {
@@ -24059,6 +24059,33 @@
 	      // });
 	    };
 
+	    _this.onResize = function (w, h) {
+	      var that = _this;
+	      _jquery2.default.ajax({
+	        url: 'http://localhost:9000/pictures/img?w=' + w + '&h=' + h,
+	        type: 'GET',
+	        success: function success(res) {
+	          // console.log( res );
+	          if (res.status === 200) that.setState({
+	            resizeUrl: res.img + '?time=' + new Date()
+	          });
+	        },
+	        error: function (_error) {
+	          function error(_x) {
+	            return _error.apply(this, arguments);
+	          }
+
+	          error.toString = function () {
+	            return _error.toString();
+	          };
+
+	          return error;
+	        }(function (err) {
+	          console.error(error);
+	        })
+	      });
+	    };
+
 	    _this.state = {
 	      avatar: '',
 	      crop: {
@@ -24067,20 +24094,29 @@
 	        aspect: 3 / 4
 	      },
 	      userCrop: {},
-	      cropImg: ''
+	      cropImg: '',
+	      resizeUrl: ''
 	    };
 	    return _this;
 	  }
 
 	  _createClass(ImageCropApp, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.onResize('128', '128');
+	    }
+	  }, {
 	    key: 'shouldComponentUpdate',
 	    value: function shouldComponentUpdate(nextProps, nextState) {
 	      if (this.state.avatar !== nextState.avatar) return true;
+	      if (this.state.resizeUrl !== nextState.resizeUrl) return true;
 	      return false;
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'app container-fluid' },
@@ -24143,6 +24179,40 @@
 	                onClick: this.onSave },
 	              'Save'
 	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-sm-12 text-center mg-5' },
+	            _react2.default.createElement(
+	              'button',
+	              { type: 'button', className: 'btn btn-sm btn-default', onClick: function onClick() {
+	                  return _this2.onResize('128', '128');
+	                } },
+	              ' 128x128 '
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { type: 'button', className: 'btn btn-sm btn-default', onClick: function onClick() {
+	                  return _this2.onResize('200', '200');
+	                } },
+	              ' 200x200 '
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { type: 'button', className: 'btn btn-sm btn-default', onClick: function onClick() {
+	                  return _this2.onResize('30', '30');
+	                } },
+	              ' 30x30 '
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-sm-12 text-center' },
+	            _react2.default.createElement('img', { ref: 'resize', src: this.state.resizeUrl })
 	          )
 	        )
 	      );
