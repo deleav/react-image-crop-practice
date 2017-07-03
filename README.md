@@ -1,6 +1,6 @@
 # react-blog-template
 ## DEMO
-  * [DEMO](https://deleav.github.io/react-blog-template/)
+  * [DEMO](https://deleav.github.io/react-image-crop-practice/)
 
 ## Usage
   * npm i
