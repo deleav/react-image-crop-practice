@@ -14,12 +14,19 @@ export default class ImageCropApp extends Component {
         aspect: 3/4
       },
       userCrop: {},
-      cropImg: ''
+      cropImg: '',
+      resizeUrl: ''
     }
+  }
+
+  componentDidMount() {
+    this.onResize( '128', '128' );
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     if ( this.state.avatar !== nextState.avatar )
+      return true;
+    if ( this.state.resizeUrl !== nextState.resizeUrl )
       return true;
     return false;
   }
@@ -106,7 +113,7 @@ export default class ImageCropApp extends Component {
   }
 
   onSave = () => {
-    console.log( this.refs.crop );
+    // console.log( this.refs.crop );
     $.ajax({
       url: 'http://localhost:9000/pictures/upload',
       type: 'POST',
@@ -114,11 +121,11 @@ export default class ImageCropApp extends Component {
         img: this.refs.crop.src
       },
       success: function( res ) {
-        console.log( res );
+        // console.log( res );
         alert( 'Upload crop image success!' );
       },
       error: function( err ) {
-        console.log( err );
+        console.error( err );
       }
     })
     // axios.post('http://localhost:7000/pictures/upload', {
@@ -130,6 +137,24 @@ export default class ImageCropApp extends Component {
     // .catch(function (error) {
     //   console.log(error);
     // });
+  }
+
+  onResize = ( w, h ) => {
+    let that = this;
+    $.ajax({
+      url: `http://localhost:9000/pictures/img?w=${w}&h=${h}`,
+      type: 'GET',
+      success( res ) {
+        // console.log( res );
+        if ( res.status === 200 )
+          that.setState({
+            resizeUrl: res.img + '?time=' + new Date()
+          });
+      },
+      error( err ) {
+        console.error( error );
+      }
+    })
   }
 
   render() {
@@ -174,6 +199,16 @@ export default class ImageCropApp extends Component {
               onClick={ this.onSave }>
               Save
             </button>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-sm-12 text-center mg-5">
+            <button type="button" className="btn btn-sm btn-default" onClick={ () => this.onResize('128', '128') }> 128x128 </button>
+            <button type="button" className="btn btn-sm btn-default" onClick={ () => this.onResize('200', '200') }> 200x200 </button>
+            <button type="button" className="btn btn-sm btn-default" onClick={ () => this.onResize('30', '30') }> 30x30 </button>
+          </div>
+          <div className="col-sm-12 text-center">
+            <img ref="resize" src={ this.state.resizeUrl }/>
           </div>
         </div>
       </div>
