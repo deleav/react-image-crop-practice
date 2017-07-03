@@ -6,7 +6,8 @@ import { render } from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 // import PostApp from './containers/PostApp';
-import App from './containers/App';
+// import App from './containers/App';
+import ImageCropApp from './containers/ImageCropApp';
 import rootReducers from './reducers/RootReducers';
 
 let rootElement = document.getElementById('mountNode');
@@ -14,7 +15,7 @@ let store = createStore( rootReducers, window.devToolsExtension ? window.devTool
 
 render(
   <Provider store={store}>
-    <App />
+    <ImageCropApp />
   </Provider>,
   rootElement
 );

@@ -1,0 +1,24 @@
+html, body, #mountNode {
+  height: 100%;
+  margin: 0;
+}
+
+.app {
+  min-height: 100%;
+  padding-top: 40px;
+  background-color: #F5F5F5;
+  border: 1px solid #F5F5F5;
+
+  .mg-5 {
+    margin: 5px;
+  }
+
+  .img {
+    height: 330px;
+  }
+
+  .no-float {
+    display: table-cell;
+    float: none;
+  }
+}
