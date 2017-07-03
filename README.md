@@ -1,4 +1,4 @@
-# react-blog-template
+# react-image-crop-practice
 ## DEMO
   * [DEMO](https://deleav.github.io/react-image-crop-practice/)
 
