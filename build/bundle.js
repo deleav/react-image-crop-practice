@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "4d90c7d5ef62d5f4b996"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "8d76a5d80b47cf434b41"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -23966,6 +23966,8 @@
 	    _this.onImageLoaded = function (crop, image, pixelCrop) {
 	      _this.setState({
 	        userCrop: pixelCrop
+	      }, function () {
+	        return _this.cropImage();
 	      });
 	    };
 
