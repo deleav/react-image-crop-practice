@@ -41,14 +41,14 @@ export default class ImageCropApp extends Component {
   onImageLoaded = (crop, image, pixelCrop) => {
     this.setState({
       userCrop: pixelCrop
-    })
+    }, () => this.cropImage());
   }
 
   onComplete = (crop, pixelCrop) => {
     // console.log( crop, pixelCrop );
     this.setState({
       userCrop: pixelCrop
-    })
+    });
   }
 
   loadImageToCrop = (src, callback) => {
