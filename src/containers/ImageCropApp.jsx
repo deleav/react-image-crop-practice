@@ -15,7 +15,7 @@ export default class ImageCropApp extends Component {
       },
       userCrop: {},
       cropImg: '',
-      resizeUrl: ''
+      resizeUrl: '',
     }
   }
 
